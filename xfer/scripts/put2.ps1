@@ -282,9 +282,9 @@ If ($fixSCCM -eq "TRUE"){
 }
 If ($userFavorites -eq "TRUE"){
     Write-Host "Copying Google Chrome Bookmarks" -ForegroundColor Green
-    Copy-Item -Force -Path "\\$comp\c$\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
+    Copy-Item -Force -Path "\\$comp\c$\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
     Write-Host "Copying IE Bookmarks" -ForegroundColor Green
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Favorites -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Favorites -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 
 If ($appDataFolder -eq "TRUE"){
@@ -315,39 +315,39 @@ If ($powerPlan -eq "TRUE"){
 
 If ($userDesktop -eq "TRUE"){
     Write-Host "Copying Desktop..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Desktop -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Desktop -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userDocuments -eq "TRUE"){
     Write-Host "Copying Documents..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Documents -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Documents -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userContacts -eq "TRUE"){
     Write-Host "Copying Contacts..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Contacts -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Contacts -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userDownloads -eq "TRUE"){
     Write-Host "Copying Downloads..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Downloads -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Downloads -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userLinks -eq "TRUE"){
     Write-Host "Copying Links..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Links -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Links -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userMusic -eq "TRUE"){
     Write-Host "Copying Music..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Music -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Music -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userPictures -eq "TRUE"){
     Write-Host "Copying Pictures..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Pictures -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Pictures -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userVideos -eq "TRUE"){
     Write-Host "Copying Videos..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Videos -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\Videos -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userAppData -eq "TRUE"){
     Write-Host "Copying AppData..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$cUser\AppData -Destination "C:\users\$cUser\" -Recurse
+    Copy-Item -Force -Path \\$comp\c$\users\$cUser\AppData -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 
 
