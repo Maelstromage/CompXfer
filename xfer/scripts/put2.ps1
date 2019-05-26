@@ -298,12 +298,18 @@ If ($powerPlan -eq "TRUE"){
     Write-Host "Changing power Plan..." -fore gray
     $powerPlan = Get-WmiObject -Namespace root\cimv2\power -Class Win32_PowerPlan -Filter "ElementName = 'High Performance'"
     $powerPlan.Activate()
-    Write-Host "Changing monitor timeout to Never..." -fore gray
+    Write-Host "Changing plugged in monitor timeout to Never..." -fore gray
     powercfg -change -monitor-timeout-ac 0
-    Write-Host "Changing standby timeout to Never..." -fore gray
+    Write-Host "Changing plugged in standby timeout to Never..." -fore gray
     powercfg -change -standby-timeout-ac 0
-    Write-Host "Changing hibernate timeout to Never..." -fore gray
+    Write-Host "Changing plugged in hibernate timeout to Never..." -fore gray
     powercfg -change -hibernate-timeout-ac 0
+    Write-Host "Changing on battery monitor timeout to Never..." -fore gray
+    powercfg -change -monitor-timeout-dc 0
+    Write-Host "Changing on battery standby timeout to Never..." -fore gray
+    powercfg -change -standby-timeout-dc 0
+    Write-Host "Changing on battery hibernate timeout to Never..." -fore gray
+    powercfg -change -hibernate-timeout-dc 0
 }
 
 
