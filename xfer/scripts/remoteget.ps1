@@ -1,8 +1,12 @@
 # Written by Harley Schaeffer version 1.1
 # Write-host "Version 0.3.042419 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+
+Start PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Unrestricted -File ""REPLACEME\Scripts\get.ps1"" -gRemote TRUE'
+
+
+<#
 $PSScriptRoot = "REPLACEME"
 $confLocation = $PSScriptRoot + "\scripts\compXfer.conf"
-
 function Get-ValidEntry {
 
     param ($bValue, $lineCount)
