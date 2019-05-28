@@ -68,5 +68,5 @@ Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
 
 $argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
-
+Sleep 2
 Start-Process PowerShell -ArgumentList $argList
