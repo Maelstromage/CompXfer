@@ -1,4 +1,5 @@
-# Written by Harley Schaeffer version 1.1 
+# Written by Harley Schaeffer version 1.1
+param($gRemote)
 Write-host "Version 1.1 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 $scriptRoot = "REPLACEME"
 $confLocation = $scriptRoot + "\scripts\compXfer.conf"
@@ -50,8 +51,7 @@ foreach ($configLine in $compXfer) {
         continue
     }
     If ($configLine[0].Substring(0,1) -eq "#"){
-        continue
-        Write-Host "THIS IS NOT GOOD******************"
+        continue       
     }
     
 
@@ -63,6 +63,7 @@ foreach ($configLine in $compXfer) {
    
     If ($configLine[0].Trim() -eq "GetCredentials"){
         $getCredentials = $configLine[1].Trim()
+        If ($gRemote -eq "TRUE"){$getCredentials = "FALSE"}
         Get-ValidEntry -bValue $getCredentials -lineCount $lineCountXfer
         continue       
     }
@@ -83,6 +84,7 @@ foreach ($configLine in $compXfer) {
     }
     If ($configLine[0].Trim() -eq "ChromePasswords"){
         $chromePasswords = $configLine[1].Trim()
+        If ($gRemote -eq "TRUE"){$chromePasswords = "FALSE"}
         Get-ValidEntry -bValue $chromePasswords -lineCount $lineCountXfer
         continue
     }
