@@ -195,12 +195,14 @@ foreach ($configLine in $compXfer) {
 
 ### Overwrite Comps file
 
+
+
+if(!(Test-Path "$cPath" -PathType Leaf)){ #returns true or false if false proceeds
+    
+} else {
 if ($gRemote -eq "TRUE"){
 Clear-Content -Path $cPath -Force
-continue}else{
-    if(!(Test-Path "$cPath" -PathType Leaf)){ #returns true or false if false proceeds
-    
-    } else {
+}else{
     $errorRead = Read-Host "File $cPath exists, would you like to Overwrite? (y/n)"
         if($errorRead -eq "y"){
             Clear-Content -Path $cPath -Force
@@ -211,6 +213,9 @@ continue}else{
         }
     }
 }
+
+
+
 ### Gets Hostname and Username
 
 Add-Content $cPath "HostName = $comp"
@@ -320,4 +325,5 @@ if($chromePasswords -eq "TRUE"){
 
 
 if ($gRemote -eq "TRUE"){exit}else{read-host "press enter key to continue"}
+
 
