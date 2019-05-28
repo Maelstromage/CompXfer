@@ -182,7 +182,39 @@ foreach ($configLine in $compXfer) {
         Get-ValidEntry -bValue $userAppData -lineCount $lineCountXfer
         continue
     }
-
+    # Powersettings
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutAC"){
+        [uint16]$monitorTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutDC"){
+        [uint16]$monitorTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutAC"){
+        [uint16]$diskTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutDC"){
+        [uint16]$diskTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutAC"){
+        [uint16]$standbyTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutDC"){
+        [uint16]$standbyTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutAC"){
+        [uint16]$hibernateTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutDC"){
+        [uint16]$hibernateTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
 
 
     
