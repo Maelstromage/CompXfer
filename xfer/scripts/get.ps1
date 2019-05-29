@@ -4,6 +4,8 @@ Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to 
 $scriptRoot = "REPLACEME"
 $confLocation = $scriptRoot + "\scripts\compXfer.conf"
 
+$countprinter = 0
+
 function Get-ValidEntry {
 
     param ($bValue, $lineCount)
@@ -289,6 +291,26 @@ foreach ($drive in $dMapped){
 ### Gets Network Printers
 
 Add-Content $cPath "Network Printers:"
+
+$pMapped = Get-WMIObject -Class Win32_Printer | Select Name 
+$pShareMapped = Get-WMIObject -Class Win32_Printer | Select ShareName
+
+Write-Host "Printers currently mapped on $comp" -fore Gray
+foreach ($pPrinter in $pMapped.name){
+    
+    $aPrinter = "\\" + $pPrinter.Split("\")[2] + "\" + $pShareMapped[$countprinter].sharename
+    if ($aPrinter.StartsWith("\\\") -eq $true){
+        $countprinter++    
+        continue
+    }
+    Write-Host $aPrinter -fore Green
+    Add-Content $cPath $pPrinter.trim()
+    
+    
+    $countprinter++
+}
+
+<#
 $pMapped = Get-WMIObject -Class Win32_Printer | Select Name | findstr /c:'\\'
 Write-Host "Printers currently mapped on $comp" -fore Gray
 foreach ($pPrinter in $pMapped){
@@ -296,7 +318,7 @@ foreach ($pPrinter in $pMapped){
     Write-Host $pPrinter -fore green
     Add-Content $cPath $pPrinter.trim()
 }
-
+#>
 
 $dPrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Default=$true" | Select Name | findstr /c:'\\'
 Add-Content $cPath "DefaultPrinter = $dPrinter"
