@@ -1,8 +1,10 @@
-# Written by Harley Schaeffer version 1.1
+# Written by Harley Schaeffer version 1.2.290519
 param($gRemote)
-Write-host "Version 1.1 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 $scriptRoot = "REPLACEME"
 $confLocation = $scriptRoot + "\scripts\compXfer.conf"
+
+$countprinter = 0
 
 function Get-ValidEntry {
 
@@ -23,7 +25,9 @@ function Get-ValidEntry {
 
 if(!(Test-Path $confLocation -PathType Leaf)){ #returns true or false if false proceeds
     Write-Host "Cannot find compxfer.conf in location $scriptRoot. Please move compxfer.conf to $scriptRoot" -fore Red
+    if ($gRemote -eq "TRUE"){exit}else{
     read-host "press any key to continue"
+    }
     exit
 }
 
@@ -180,7 +184,39 @@ foreach ($configLine in $compXfer) {
         Get-ValidEntry -bValue $userAppData -lineCount $lineCountXfer
         continue
     }
-
+    # Powersettings
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutAC"){
+        [uint16]$monitorTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutDC"){
+        [uint16]$monitorTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutAC"){
+        [uint16]$diskTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutDC"){
+        [uint16]$diskTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutAC"){
+        [uint16]$standbyTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutDC"){
+        [uint16]$standbyTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutAC"){
+        [uint16]$hibernateTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutDC"){
+        [uint16]$hibernateTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
 
 
     
@@ -193,18 +229,26 @@ foreach ($configLine in $compXfer) {
 
 ### Overwrite Comps file
 
+
+
 if(!(Test-Path "$cPath" -PathType Leaf)){ #returns true or false if false proceeds
     
 } else {
-$errorRead = Read-Host "File $cPath exists, would you like to Overwrite? (y/n)"
-    if($errorRead -eq "y"){
-        Clear-Content -Path $cPath -Force
-    } else {
-        Write-Host "File not overwritten, exiting..."
-        read-host "press any key to continue"
-        Exit
+if ($gRemote -eq "TRUE"){
+Clear-Content -Path $cPath -Force
+}else{
+    $errorRead = Read-Host "File $cPath exists, would you like to Overwrite? (y/n)"
+        if($errorRead -eq "y"){
+            Clear-Content -Path $cPath -Force
+        } else {
+            Write-Host "File not overwritten, exiting..."
+            read-host "press any key to continue"
+            Exit
+        }
     }
 }
+
+
 
 ### Gets Hostname and Username
 
@@ -247,6 +291,26 @@ foreach ($drive in $dMapped){
 ### Gets Network Printers
 
 Add-Content $cPath "Network Printers:"
+
+$pMapped = Get-WMIObject -Class Win32_Printer | Select Name 
+$pShareMapped = Get-WMIObject -Class Win32_Printer | Select ShareName
+
+Write-Host "Printers currently mapped on $comp" -fore Gray
+foreach ($pPrinter in $pMapped.name){
+    
+    $aPrinter = "\\" + $pPrinter.Split("\")[2] + "\" + $pShareMapped[$countprinter].sharename
+    if ($aPrinter.StartsWith("\\\") -eq $true){
+        $countprinter++    
+        continue
+    }
+    Write-Host $aPrinter -fore Green
+    Add-Content $cPath $aPrinter
+    
+    
+    $countprinter++
+}
+
+<#
 $pMapped = Get-WMIObject -Class Win32_Printer | Select Name | findstr /c:'\\'
 Write-Host "Printers currently mapped on $comp" -fore Gray
 foreach ($pPrinter in $pMapped){
@@ -254,7 +318,7 @@ foreach ($pPrinter in $pMapped){
     Write-Host $pPrinter -fore green
     Add-Content $cPath $pPrinter.trim()
 }
-
+#>
 
 $dPrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Default=$true" | Select Name | findstr /c:'\\'
 Add-Content $cPath "DefaultPrinter = $dPrinter"
@@ -314,83 +378,6 @@ if($chromePasswords -eq "TRUE"){
 
 
 
-read-host "press any key to continue"
+if ($gRemote -eq "TRUE"){exit}else{read-host "press enter key to continue"}
 
 
-<#
-### Backup of install Script.
-
-
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-function Unzip
-{
-    param([string]$zipfile, [string]$outpath)
-
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
-}
-
-Write-Output $PSScriptRoot
-New-Item -Path $PSScriptRoot -name "comps" -ItemType "directory"
-New-Item -Path $PSScriptRoot -name "export" -ItemType "directory"
-New-Item -Path $PSScriptRoot -name "installs" -ItemType "directory"
-Write-Output "Downloading psexec..."
-$url = "https://download.sysinternals.com/files/PSTools.zip"
-$output = "$PSScriptRoot\PSTools.zip"
-Write-Output "Download Complete."
-Invoke-WebRequest -uri $url -OutFile $output
-Write-Output "Unziping PSTools.zip..."
-Unzip "$PSScriptRoot\PSTools.zip" "$PSScriptRoot\PSTools"
-Write-Output "Unzip Complete."
-Remove-Item "$PSScriptRoot\pstools.zip"
-Move-Item -Path $PSScriptRoot\xfer\docs -Destination $PSScriptRoot
-
-
-New-Item -Path $PSScriptRoot -name "scripts" -ItemType "directory"
-Move-Item -Path $PSScriptRoot\xfer\scripts\put1.ps1 -Destination "$PSScriptRoot\scripts"
-Move-Item -Path $PSScriptRoot\xfer\scripts\put2.ps1 -Destination "$PSScriptRoot\scripts"
-
-
-$getLocal = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+"'"+ '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\get.ps1" + '""'+"'"+'}";' + "`r`n" + 'pause'
-New-Item -Path $PSScriptRoot -name "getlocal.bat" -ItemType "file" -Value $getLocal
-
-$getRemote = 'set /p comp=Please enter the computer name and hit enter:' + "`r`n" + 'echo Executing on %comp%...'+ "`r`n" + 'psexec -accepteula -i -s \\%comp% cscript "' + "$PSScriptRoot\scripts\remoteget.vbs" + '"' + "`r`n" + 'pause'
-New-Item -path $PSScriptRoot -name "getremote.bat" -ItemType "file" -Value $getRemote
-
-$getPut = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+ "'" + '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\put1.ps1" + '""' +"'" + '}";' + "`r`n" + 'pause'
-New-Item -path $PSScriptRoot -name "put.bat" -ItemType "file" -Value $getPut
-
-
-
-Move-Item -Path $PSScriptRoot\xfer\scripts\get.ps1 -Destination "$PSScriptRoot\scripts"
-
-
-((Get-Content -path "$PSScriptRoot\scripts\get.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\get.ps1"
-Get-Content -path "$PSScriptRoot\scripts\get.ps1"
-
-
-
-
-$remoteGet = 'start /min PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList ' + "'" + '-windowstyle hidden -NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\remoteget.ps1" + '""' +"'" + '}";'
-
-New-Item -path "$PSScriptRoot\scripts" -name "remoteget.bat" -ItemType "file" -Value $remoteGet
-
-
-
-((Get-Content -path "$PSScriptRoot\xfer\scripts\remoteget.vbs" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\remoteget.vbs"
-Get-Content -path "$PSScriptRoot\scripts\remoteget.vbs"
-
-
-
-((Get-Content -path "$PSScriptRoot\xfer\scripts\remoteget.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\remoteget.ps1"
-Get-Content -path "$PSScriptRoot\scripts\remoteget.ps1"
-
-
-
-((Get-Content -path "$PSScriptRoot\xfer\scripts\compxfer.conf" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\compxfer.conf"
-Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
-Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
-
-$argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
-
-Start-Process PowerShell -ArgumentList $argList
-#>

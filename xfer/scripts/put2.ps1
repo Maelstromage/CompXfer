@@ -1,7 +1,9 @@
-# Written by Harley Schaeffer 3/18/2019 version 1.2
+# Written by Harley Schaeffer 3/18/2019 version 1.2.290519
 
 param($comp)
-Write-host "Version 1.2 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+
+
 
 function Get-ValidEntry {
 
@@ -167,7 +169,42 @@ foreach ($configLine in $compXfer) {
         Get-ValidEntry -bValue $userAppData -lineCount $lineCountXfer
         continue
     }
+    # Power Settings
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutAC"){
+        [uint16]$monitorTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutDC"){
+        [uint16]$monitorTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutAC"){
+        [uint16]$diskTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutDC"){
+        [uint16]$diskTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutAC"){
+        [uint16]$standbyTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutDC"){
+        [uint16]$standbyTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutAC"){
+        [uint16]$hibernateTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutDC"){
+        [uint16]$hibernateTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
 
+
+    
     
     Write-Host "Error in file $PSScriptRoot\compxfer.conf line $lineCountXfer. $configLine is not a known configuration value." -fore red
     
@@ -298,18 +335,31 @@ If ($powerPlan -eq "TRUE"){
     Write-Host "Changing power Plan..." -fore gray
     $powerPlan = Get-WmiObject -Namespace root\cimv2\power -Class Win32_PowerPlan -Filter "ElementName = 'High Performance'"
     $powerPlan.Activate()
-    Write-Host "Changing plugged in monitor timeout to Never..." -fore gray
-    powercfg -change -monitor-timeout-ac 0
-    Write-Host "Changing plugged in standby timeout to Never..." -fore gray
-    powercfg -change -standby-timeout-ac 0
-    Write-Host "Changing plugged in hibernate timeout to Never..." -fore gray
-    powercfg -change -hibernate-timeout-ac 0
-    Write-Host "Changing on battery monitor timeout to Never..." -fore gray
-    powercfg -change -monitor-timeout-dc 0
-    Write-Host "Changing on battery standby timeout to Never..." -fore gray
-    powercfg -change -standby-timeout-dc 0
-    Write-Host "Changing on battery hibernate timeout to Never..." -fore gray
-    powercfg -change -hibernate-timeout-dc 0
+    
+    Write-Host "Changing plugged in monitor timeout to $monitorTimeoutAC..." -fore gray
+    powercfg -change -monitor-timeout-ac $monitorTimeoutAC
+    
+    Write-Host "Changing on battery monitor timeout to $monitorTimeoutDC..." -fore gray
+    powercfg -change -monitor-timeout-dc $monitorTimeoutDC
+
+    Write-Host "Changing plugged in Disk timeout to $diskTimeoutAC..." -fore gray
+    powercfg -change -disk-timeout-ac $diskTimeoutAC
+    
+    Write-Host "Changing on battery Disk timeout to $diskTimeoutDC..." -fore gray    
+    powercfg -change -disk-timeout-dc $diskTimeoutDC
+
+    Write-Host "Changing plugged in standby timeout to $standbyTimeoutAC..." -fore gray
+    powercfg -change -standby-timeout-ac $standbyTimeoutAC
+    
+    Write-Host "Changing on battery standby timeout to $standbyTimeoutDC..." -fore gray
+    powercfg -change -standby-timeout-dc $standbyTimeoutDC
+    
+    Write-Host "Changing plugged in hibernate timeout to $hibernateTimeoutAC..." -fore gray
+    powercfg -change -hibernate-timeout-ac $hibernateTimeoutAC
+
+    Write-Host "Changing on battery hibernate timeout to $hibernateTimeoutDC..." -fore gray
+    powercfg -change -hibernate-timeout-dc $hibernateTimeoutDC
+    
 }
 
 

@@ -1,5 +1,5 @@
-# Written by Harley Schaeffer 3/18/2019 version 1.1
-Write-host "Version 0.3.042419 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+# Written by Harley Schaeffer 3/18/2019 version 1.2.290519
+Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 function Get-ValidEntry {
 
     param ($bValue, $lineCount)
@@ -175,10 +175,43 @@ foreach ($configLine in $compXfer) {
         Get-ValidEntry -bValue $userAppData -lineCount $lineCountXfer
         continue
     }
+    # Power Settings
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutAC"){
+        [uint16]$monitorTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "MonitorTimeoutDC"){
+        [uint16]$monitorTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutAC"){
+        [uint16]$diskTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "DiskTimeoutDC"){
+        [uint16]$diskTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutAC"){
+        [uint16]$standbyTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "StandbyTimeoutDC"){
+        [uint16]$standbyTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutAC"){
+        [uint16]$hibernateTimeoutAC = $configLine.split('=').Trim()[1]
+        continue
+    }
+    If ($configLine.split('=').Trim()[0] -eq "HibernateTimeoutDC"){
+        [uint16]$hibernateTimeoutDC = $configLine.split('=').Trim()[1]
+        continue
+    }
 
 
 
-    #stop copy
+  
     Write-Host "Error in file $PSScriptRoot\compxfer.conf line $lineCountXfer. $configLine is not a known configuration value." -fore red
     
     
@@ -265,7 +298,7 @@ foreach ($compLine in $compFile) {
                 #not tested
                 $dPrinter = $compLine.split('=').Trim()[1]
                 #RUNDLL32 PRINTUI.DLL,PrintUIEntry /y /n $dPrinter
-                (New-Object -ComObject WScript.Network).SetDefaultPrinter('$dPrinter')
+                (New-Object -ComObject WScript.Network).SetDefaultPrinter($dPrinter)
                 #(Get-WmiObject -ComputerName . -Class Win32_Printer -Filter "Name=$dPrinter").SetDefaultPrinter()
             }
         }
