@@ -298,7 +298,7 @@ foreach ($compLine in $compFile) {
                 #not tested
                 $dPrinter = $compLine.split('=').Trim()[1]
                 #RUNDLL32 PRINTUI.DLL,PrintUIEntry /y /n $dPrinter
-                (New-Object -ComObject WScript.Network).SetDefaultPrinter('$dPrinter')
+                (New-Object -ComObject WScript.Network).SetDefaultPrinter($dPrinter)
                 #(Get-WmiObject -ComputerName . -Class Win32_Printer -Filter "Name=$dPrinter").SetDefaultPrinter()
             }
         }
