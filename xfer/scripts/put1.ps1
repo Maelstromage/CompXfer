@@ -273,6 +273,13 @@ foreach ($compLine in $compFile) {
         
         continue 
     }
+    
+     If ($compLine.split('=').Trim()[0] -eq "UserProfile"){
+        Write-host "User profile folder name:"$compLine.split('=').Trim()[1]  -fore yellow
+        $uProfile = $compLine.split('=').Trim()[1]
+        continue
+    }
+
     If ($compLine.split('=').Trim()[0] -eq "Password"){
         $uPassword = $compLine.split('=').Trim()[1]
         Write-host "Password:"$compLine.split('=').Trim()[1]  -fore yellow
