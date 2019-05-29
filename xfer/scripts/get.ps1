@@ -304,7 +304,7 @@ foreach ($pPrinter in $pMapped.name){
         continue
     }
     Write-Host $aPrinter -fore Green
-    Add-Content $cPath $pPrinter.trim()
+    Add-Content $cPath $aPrinter
     
     
     $countprinter++
