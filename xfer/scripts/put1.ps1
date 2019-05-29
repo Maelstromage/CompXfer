@@ -1,5 +1,5 @@
-# Written by Harley Schaeffer 3/18/2019 version 1.1
-Write-host "Version 0.3.042419 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+# Written by Harley Schaeffer 3/18/2019 version 1.2.290519
+Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 function Get-ValidEntry {
 
     param ($bValue, $lineCount)
