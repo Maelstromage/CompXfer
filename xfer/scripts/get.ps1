@@ -256,6 +256,9 @@ Add-Content $cPath "HostName = $comp"
 Write-Host "Hostname: $comp" -fore yellow
 Add-Content $cPath "User = $env:username"
 Write-Host "Username: $env:username" -fore yellow
+$uProfile = $env:USERPROFILE.split("\")[2]
+Add-Content $cPath "UserProfile = $uProfile"
+Write-Host "User profile folder name:  $uProfile" -fore yellow 
 
 ### Gets Credentials must
 If($getCredentials -eq "TRUE"){
