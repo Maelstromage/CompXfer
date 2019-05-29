@@ -331,7 +331,7 @@ If ($userFavorites -eq "TRUE"){
 
 If ($appDataFolder -eq "TRUE"){
     Write-Host "Please copy appdata manually Opening Folders..." -fore Magenta
-    Invoke-Item "\\$comp\c$\users\$cUser\AppData"  
+    Invoke-Item "\\$comp\c$\users\$uProfile\AppData"  
     Invoke-Item "c:\users\$cUser\AppData\"
 }
 
