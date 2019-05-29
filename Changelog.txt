@@ -1,0 +1,25 @@
+05/29/19
+Created by Harley Schaeffer
+
+Version 1.1 fixes
+
+  Copy bookmarks for chrome was not moving over. 
+    It seems that if the browser is open while the script is run then it has to be closed and reopened.
+  Printer mappings bug
+    Printers were pulling printer names and not the share names. Corrected the issue
+  Update power settings enhancement
+    Added settings that can be changed to compXfer.conf
+  
+Version 1.2.290519 known bugs
+
+  Default printer does not work bug
+    setting the default printer does not work
+  Clean up remoteget bug
+    There are quite a few scripts that are used to make remoteget work which causes a lot of boxes to come up on the users screen. Although there is not hinderance in functionality.
+
+Upcoming features
+
+  Have script know if it running on win7 or win10 enhancement
+    There will be updates to enhance the use of windows 7 or windows 10
+  Application install enhancement
+    Creating the ability to run installs from the installs folder.
