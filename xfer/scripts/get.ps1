@@ -335,7 +335,7 @@ $dSharePrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Defaul
 
 if ($dNamePrinter -ne $null){
     $dPrinter = "\\" + $dNamePrinter.Split("\")[2] + "\" + $dSharePrinter.sharename
-    #Add-Content $cPath "DefaultPrinter = $dPrinter"
+    Add-Content $cPath "DefaultPrinter = $dPrinter"
     Write-Host "Default Printer: $dPrinter" -fore yellow
    
 }
