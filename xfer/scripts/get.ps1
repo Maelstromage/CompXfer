@@ -163,7 +163,7 @@ if ($dNamePrinter -ne $null){
    
 }else{
     Write-Host "No Default Printer Found" -fore yellow
-
+    Add-Content $cPath "DefaultPrinter = "
 }
 
 
