@@ -321,11 +321,26 @@ foreach ($pPrinter in $pMapped){
     Write-Host $pPrinter -fore green
     Add-Content $cPath $pPrinter.trim()
 }
-#>
 
 $dPrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Default=$true" | Select Name | findstr /c:'\\'
 Add-Content $cPath "DefaultPrinter = $dPrinter"
 Write-Host "Default Printer: $dPrinter" -fore yellow
+
+#>
+
+
+$dNamePrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Default=$true" | Select Name | findstr /c:'\\'
+$dSharePrinter = Get-WmiObject -query " SELECT * FROM Win32_Printer WHERE Default=$true" | Select ShareName 
+
+
+if ($dNamePrinter -ne $null){
+    $dPrinter = "\\" + $dNamePrinter.Split("\")[2] + "\" + $dSharePrinter.sharename
+    #Add-Content $cPath "DefaultPrinter = $dPrinter"
+    Write-Host "Default Printer: $dPrinter" -fore yellow
+   
+}
+
+
 
 #Add-Content $cPath "Service Tag"
 $sTag = (Get-WmiObject win32_bios | Select SerialNumber | format-wide | Out-string ).Trim()
