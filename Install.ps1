@@ -26,6 +26,7 @@ Move-Item -Path $PSScriptRoot\xfer\docs -Destination $PSScriptRoot
 New-Item -Path $PSScriptRoot -name "scripts" -ItemType "directory"
 Move-Item -Path $PSScriptRoot\xfer\scripts\put1.ps1 -Destination "$PSScriptRoot\scripts"
 Move-Item -Path $PSScriptRoot\xfer\scripts\put2.ps1 -Destination "$PSScriptRoot\scripts"
+Move-Item -Path $PSScriptRoot\xfer\scripts\verifyconf.ps1 -Destination "$PSScriptRoot\scripts"
 
 
 $getLocal = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+"'"+ '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\get.ps1" + '""'+"'"+'}";' + "`r`n" + 'pause'
@@ -67,8 +68,6 @@ Get-Content -path "$PSScriptRoot\scripts\remoteget.ps1"
 ((Get-Content -path "$PSScriptRoot\xfer\scripts\compxfer.conf" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\compxfer.conf"
 Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
-
-Move-Item -Path $PSScriptRoot\xfer\scripts\verifyconf.ps1 -Destination "$PSScriptRoot\scripts"
 
 $argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
 Sleep 2
