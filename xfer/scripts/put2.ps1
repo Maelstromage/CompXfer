@@ -32,7 +32,7 @@ $lineCountXfer = 0
 $creds = ""
 
 
-
+$scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
 
