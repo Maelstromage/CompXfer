@@ -2,7 +2,7 @@
 param($gRemote)
 Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 $scriptRoot = "REPLACEME"
-$confLocation = $scriptRoot + "\scripts\compXfer.conf"
+$confLocation = $scriptRoot + "\compXfer.conf"
 
 $countprinter = 0
 
@@ -47,7 +47,7 @@ $creds = ""
 ### error checking for confxfer.conf and adds values
 
 
-. $scriptRoot\verifyconf.ps1 
+. "$scriptRoot\verifyconf.ps1"
 
 
 ### Overwrite Comps file
@@ -223,5 +223,6 @@ if($chromePasswords -eq "TRUE"){
 
 
 if ($gRemote -eq "TRUE"){exit}else{read-host "press enter key to continue"}
+
 
 
