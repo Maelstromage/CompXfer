@@ -26,7 +26,7 @@ if(!(Test-Path "$PSScriptRoot\compxfer.conf" -PathType Leaf)){ #returns true or 
 $lineCountXfer = 0
 $creds = ""
 
-
+$fromPut = $true
 $scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
