@@ -43,7 +43,7 @@ $creds = ""
 
 
 
-
+$fromPut = $false
 ### error checking for confxfer.conf and adds values
 
 
