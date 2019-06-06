@@ -10,7 +10,7 @@ foreach ($configLine in $compXfer) {
         $cPath = $configLine[1].Trim() + $comp + '.txt'
         continue
     }
-    If (configLine[0].Trim() -eq "ChromeExportLocation"){
+    If ($configLine[0].Trim() -eq "ChromeExportLocation"){
         $chromeExportLocation = $configLine[1].Trim()
         $chromeExportLocation = $chromeExportLocation.TrimEnd("\")
         continue
