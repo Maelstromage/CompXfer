@@ -35,10 +35,10 @@ $creds = ""
 $scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
-. $scriptRoot\verifyconf.ps1 
+#. $scriptRoot\verifyconf.ps1 
 
 
-<#
+
 
 foreach ($configLine in $compXfer) {
     $lineCountXfer++
@@ -214,7 +214,7 @@ foreach ($configLine in $compXfer) {
     
     
 }
-#>
+
 
 Write-Host -fore gray "Loading $cPath..."
 
