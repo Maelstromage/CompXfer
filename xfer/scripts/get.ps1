@@ -1,6 +1,6 @@
-# Written by Harley Schaeffer version 1.2.290519
+# Written by Harley Schaeffer version 1.2.191206
 param($gRemote)
-Write-host "Version 1.2.290519 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+Write-host "Version 1.2.191206 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 $scriptRoot = "REPLACEME" + "\scripts"
 $confLocation = $scriptRoot + "\compXfer.conf"
 
