@@ -1,7 +1,44 @@
-05/29/19
+
 Created by Harley Schaeffer
 
-Version 1.1 fixes
+12:44 PM 6/12/2019
+
+Version 1.2.191206 Bug fixes
+
+  Default printer now maps correctly
+    The share name was not being used for printer now it is
+  Get Remote was not coping files
+    robocopy needs a space after the last \ 
+  Created a seperate file for the onf verifier
+    There were many bugs but it should run correctly now
+  Profile folder was not pulling the correct folder name
+    Was using the username as the profile folder name which is not always the case as a result, files might not copy. Now the correct folder name is being pulled.
+
+Version 1.2.191206 Known Bugs
+  
+  When using remoteget many boxes appear
+    Many boxes will appear, this does not stop functionality
+
+Upcoming features
+
+  Have script know if it running on win7 or win10 enhancement
+    There will be updates to enhance the use of windows 7 or windows 10
+  Application install enhancement
+    Creating the ability to run installs from the installs folder.
+  Setting up the ConfXfer.conf file will be automated
+    During the install ConfXfer.conf will ask you what features you would like to have
+  When running install update instead
+    Updating confXfer is not functional. In the future it will prompt you for configuration
+  Custom install files
+    Applications will be able to be installed as it moves files over
+  Custom scripts will be able to be inserted.
+    In the future the script run custom scripts
+  Windows 7 compatibility
+    The script should be able to find out if it is windows 10 or 7 and make appropriate changes.
+
+05/29/19
+
+Version 1.2.290519 fixes
 
   Copy bookmarks for chrome was not moving over. 
     It seems that if the browser is open while the script is run then it has to be closed and reopened.
