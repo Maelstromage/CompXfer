@@ -31,7 +31,7 @@ if(!(Test-Path "$PSScriptRoot\compxfer.conf" -PathType Leaf)){ #returns true or 
 $lineCountXfer = 0
 $creds = ""
 
-$fromPut = $true
+
 $scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
@@ -341,8 +341,8 @@ If ($appDataFolder -eq "TRUE"){
 
 If ($powerPlan -eq "TRUE"){
     Write-Host "Changing power Plan..." -fore gray
-    $powerPlan = Get-WmiObject -Namespace root\cimv2\power -Class Win32_PowerPlan -Filter "ElementName = 'High Performance'"
-    $powerPlan.Activate()
+    #$powerPlan = Get-WmiObject -Namespace root\cimv2\power -Class Win32_PowerPlan -Filter "ElementName = 'High Performance'"
+    #$powerPlan.Activate()
     
     Write-Host "Changing plugged in monitor timeout to $monitorTimeoutAC..." -fore gray
     powercfg -change -monitor-timeout-ac $monitorTimeoutAC
