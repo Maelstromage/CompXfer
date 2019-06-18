@@ -8,9 +8,35 @@ function Unzip
 }
 
 Write-Output $PSScriptRoot
+
 New-Item -Path $PSScriptRoot -name "comps" -ItemType "directory"
+Icacls $PSScriptRoot\comps /c /inheritance:d 
+Icacls $PSScriptRoot\comps /t /c /remove:g "Authenticated Users" 
+Icacls $PSScriptRoot\comps /t /c /grant ("Authenticated Users"+':(OI)(CI)F')
+Icacls $PSScriptRoot\comps /c /inheritance:d 
+Icacls $PSScriptRoot\comps /t /c /remove:g "Everyone" 
+Icacls $PSScriptRoot\comps /t /c /grant ("Everyone"+':(OI)(CI)F')
+
 New-Item -Path $PSScriptRoot -name "export" -ItemType "directory"
+<#
+Icacls $PSScriptRoot\export /c /inheritance:d 
+Icacls $PSScriptRoot\export /t /c /remove:g "Authenticated Users" 
+Icacls $PSScriptRoot\export /t /c /grant ("Authenticated Users"+':(OI)(CI)W')
+Icacls $PSScriptRoot\export /c /inheritance:d 
+Icacls $PSScriptRoot\export /t /c /remove:g "Everyone" 
+Icacls $PSScriptRoot\export /t /c /grant ("Everyone"+':(OI)(CI)W')
+#>
+
 New-Item -Path $PSScriptRoot -name "installs" -ItemType "directory"
+<#
+Icacls $PSScriptRoot\installs /c /inheritance:d 
+Icacls $PSScriptRoot\installs /t /c /remove:g "Authenticated Users" 
+Icacls $PSScriptRoot\installs /t /c /grant ("Authenticated Users"+':(OI)(CI)RX')
+Icacls $PSScriptRoot\installs /c /inheritance:d 
+Icacls $PSScriptRoot\installs /t /c /remove:g "Everyone" 
+Icacls $PSScriptRoot\installs /t /c /grant ("Everyone"+':(OI)(CI)RX')
+#>
+
 Write-Output "Downloading psexec..."
 $url = "https://download.sysinternals.com/files/PSTools.zip"
 $output = "$PSScriptRoot\PSTools.zip"
