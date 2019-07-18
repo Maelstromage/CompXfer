@@ -78,7 +78,7 @@ Function Write-OutputRTB {
     )
 
     $rangeRT = New-Object System.Windows.Documents.TextRange($outputRTB.Document.ContentEnd,$outputRTB.Document.ContentEnd) 
-    $rangeRT.Text = $text
+    $rangeRT.Text = "$text`n"
     $rangeRT.ApplyPropertyValue(([System.Windows.Documents.TextElement]::ForegroundProperty), $fore)  
 }
 function Get-ValidEntry {
@@ -106,7 +106,7 @@ if(!(Test-Path "$PSScriptRoot\compxfer.conf" -PathType Leaf)){ #returns true or 
 [string[]]$compXfer = Get-Content -Path "$PSScriptRoot\compxfer.conf"
 
 $lineCountXfer = 0
-$creds = ""
+
 
 $fromPut = $true
 $scriptRoot = $PSScriptRoot
@@ -123,9 +123,126 @@ if(!(Test-Path $cPath -PathType Leaf)){ #returns true or false if false proceeds
 
 
 
-
+$creds = Get-Credential
 
 $sButton.Add_Click({
+    
+    $lineCountXfer = 0
+
+    [string[]]$compFile = Get-Content -Path $cPath
+
+
+    foreach ($compLine in $compFile) {
+
+
+        $lineCountXfer++
+        If ($compLine.split(':').Trim()[0] -eq "DSI"){continue}
+        If ($compLine.split(':').Trim()[0] -eq "Port"){continue}
+        If ($compLine.split(':').Trim()[0] -eq "DSIDeviceName"){continue}
+        If ($compLine.split(':').Trim()[0] -eq "Host address"){continue}
+        If ($compLine -eq ""){continue}
+        If ($compLine.Substring(0,1) -eq "#"){continue}    
+        If ($compLine.Substring(0,5) -eq "BANK "){continue}
+        If ($compLine.Substring(0,5) -eq "     "){continue}
+      
+        If ($compLine.Substring(0,9) -eq "BankLabel"){continue}
+        If ($compLine.Substring(0,9) -eq "---------"){continue}
+        If ($compLine.Substring(0,10) -eq "ServiceTag"){continue}
+
+    
+
+
+
+
+        If ($compLine.split('=').Trim()[0] -eq "HostName"){
+            Write-outputRTB -Text ("Hostname: " + $compLine.split('=').Trim()[1])  -fore yellow
+            continue
+        }
+
+        If ($compLine.split('=').Trim()[0] -eq "User"){
+            $cUser = $compLine.split('=').Trim()[1]
+            Write-outputRTB -Text ("User: " + $compLine.split('=').Trim()[1])  -fore yellow
+            If($cUser -ne $env:USERNAME){
+                $msgBoxInput =  [System.Windows.MessageBox]::Show("You are logged in as $env:USERNAME this does not match the profile $cUser, would you like to proceed?",'Error','YesNo','Error')
+                
+                If($wrongUser -eq "yes"){
+                    Write-outputRTB -Text "Proceeding..." 
+                } else {return}
+            }
+        
+        
+            continue 
+        }
+    
+         If ($compLine.split('=').Trim()[0] -eq "UserProfile"){
+            Write-outputRTB -Text ("User profile folder name:" + $compLine.split('=').Trim()[1])  -fore yellow
+            $uProfile = $compLine.split('=').Trim()[1]
+            continue
+        }
+
+        If ($compLine.split('=').Trim()[0] -eq "Password"){
+            $uPassword = $compLine.split('=').Trim()[1]
+            Write-outputRTB -Text ("Password:" + $compLine.split('=').Trim()[1])  -fore yellow
+            continue 
+        }
+        If ($compLine.split('=').Trim()[0] -eq "Admin"){
+            Write-outputRTB -Text ("Admin:" + $compLine.split('=').Trim()[1])  -fore yellow
+            continue 
+        }
+        If ($compLine -eq "Network Printers:"){continue}
+    
+        If ($compLine.Trim().Substring(0,2) -eq "\\"){     
+            If($mapPrintersCB.IsChecked){
+                Write-outputRTB -Text "adding $compLine" -fore Green
+                Start-Process $compLine.trim()                      
+            }
+            continue
+        }
+        If ($compLine.split('=').Trim()[0] -eq "DefaultPrinter"){     
+            If($mapPrintersCB.IsChecked){
+                if($compLine.split('=').Trim()[1] -ne ""){
+                    Write-outputRTB -Text "setting "$compLine.split('=').Trim()[1]" as the default printer" -fore Green
+                    #not tested
+                    $dPrinter = $compLine.split('=').Trim()[1]
+                    #RUNDLL32 PRINTUI.DLL,PrintUIEntry /y /n $dPrinter
+                    (New-Object -ComObject WScript.Network).SetDefaultPrinter($dPrinter)
+                    #(Get-WmiObject -ComputerName . -Class Win32_Printer -Filter "Name=$dPrinter").SetDefaultPrinter()
+                }
+            }
+            continue
+        }
+        If ($compLine.split('=').Trim().Substring(0,4)[0] -eq "Driv"){
+           If($mapDrivesCB.IsChecked){    
+                New-PSDrive -Name $compLine.split('=').Trim().Substring(6,1)[0] -PSProvider "FileSystem" -Root $compLine.split('=').Trim()[1] -Credential $uCreds -Persist
+                      
+            }
+            continue
+        }  
+
+
+
+        Write-outputRTB -Text "Error in file $cPath line $lineCountXfer. $compLine is not a known configuration value." -fore red
+    }
+    
+    If($OutlookStartCB.IsChecked){
+        Write-outputRTB -Text "Starting Outlook..." -fore gray
+        Start-Process Outlook
+    }    
+    
+    If($importJDECB.IsChecked){    
+        Write-outputRTB -Text "Starting JDE IE reg fix..." -fore gray
+        REG ADD "HKCU\Software\Microsoft\Internet Explorer\MenuExt\JDE Data Selection Import - 9.1.5" /ve /d "$installLocation\JDEImport\ImportValueList.htm"
+        Write-outputRTB -Text "Starting Chrome, please click add to chrome ..." -fore Magenta
+        Start-Process chrome -ArgumentList https://chrome.google.com/webstore/detail/jde-data-selection-import/njpneibpplcgghbjcbfhcdcfigjnaaha?hl=en
+    }
+
+    Write-outputRTB -Text "Script will continue as an administrator, please hit enter then provide admin credentials." -fore Magenta
+
+
+    $lPutTwo = "$PSScriptRoot\put2.ps1"
+    #Start-Process PowerShell -ArgumentList "-NoProfile -ExecutionPolicy Unrestricted -File ""$lPutTwo"" -comp $comp " -Verb RunAs
+
+
 
 
 
@@ -147,121 +264,5 @@ $Null = $Window.ShowDialog()
 
 
 
-$lineCountXfer = 0
 
-[string[]]$compFile = Get-Content -Path $cPath
-
-
-foreach ($compLine in $compFile) {
-
-
-    $lineCountXfer++
-    If ($compLine.split(':').Trim()[0] -eq "DSI"){continue}
-    If ($compLine.split(':').Trim()[0] -eq "Port"){continue}
-    If ($compLine.split(':').Trim()[0] -eq "DSIDeviceName"){continue}
-    If ($compLine.split(':').Trim()[0] -eq "Host address"){continue}
-    If ($compLine -eq ""){continue}
-    If ($compLine.Substring(0,1) -eq "#"){continue}    
-    If ($compLine.Substring(0,5) -eq "BANK "){continue}
-    If ($compLine.Substring(0,5) -eq "     "){continue}
-      
-    If ($compLine.Substring(0,9) -eq "BankLabel"){continue}
-    If ($compLine.Substring(0,9) -eq "---------"){continue}
-    If ($compLine.Substring(0,10) -eq "ServiceTag"){continue}
-
-    
-
-
-
-
-    If ($compLine.split('=').Trim()[0] -eq "HostName"){
-        Write-outputRTB -Text "Hostname:"$compLine.split('=').Trim()[1]  -fore yellow
-        continue
-    }
-
-    If ($compLine.split('=').Trim()[0] -eq "User"){
-        $cUser = $compLine.split('=').Trim()[1]
-        Write-outputRTB -Text "User:"$compLine.split('=').Trim()[1]  -fore yellow
-        If($cUser -ne $env:USERNAME){
-            Write-outputRTB -Text "You are logged in as $env:USERNAME this does not match the profile $cUser, would you like to proceed? (y/n)"  -fore red -NoNewline
-            $wrongUser = Read-Host
-            If($wrongUser -eq "y"){
-                Write-outputRTB -Text "Proceeding..." 
-            } else {exit}
-        }
-        
-        
-        continue 
-    }
-    
-     If ($compLine.split('=').Trim()[0] -eq "UserProfile"){
-        Write-outputRTB -Text "User profile folder name:"$compLine.split('=').Trim()[1]  -fore yellow
-        $uProfile = $compLine.split('=').Trim()[1]
-        continue
-    }
-
-    If ($compLine.split('=').Trim()[0] -eq "Password"){
-        $uPassword = $compLine.split('=').Trim()[1]
-        Write-outputRTB -Text "Password:"$compLine.split('=').Trim()[1]  -fore yellow
-        continue 
-    }
-    If ($compLine.split('=').Trim()[0] -eq "Admin"){
-        Write-outputRTB -Text "Admin:"$compLine.split('=').Trim()[1]  -fore yellow
-        continue 
-    }
-    If ($compLine -eq "Network Printers:"){continue}
-    
-    If ($compLine.Trim().Substring(0,2) -eq "\\"){     
-        If($mapPrinters -eq "TRUE"){
-            Write-outputRTB -Text "adding $compLine" -fore Green
-            Start-Process $compLine.trim()                      
-        }
-        continue
-    }
-    If ($compLine.split('=').Trim()[0] -eq "DefaultPrinter"){     
-        If($mapPrinters -eq "TRUE"){
-            if($compLine.split('=').Trim()[1] -ne ""){
-                Write-outputRTB -Text "setting "$compLine.split('=').Trim()[1]" as the default printer" -fore Green
-                #not tested
-                $dPrinter = $compLine.split('=').Trim()[1]
-                #RUNDLL32 PRINTUI.DLL,PrintUIEntry /y /n $dPrinter
-                (New-Object -ComObject WScript.Network).SetDefaultPrinter($dPrinter)
-                #(Get-WmiObject -ComputerName . -Class Win32_Printer -Filter "Name=$dPrinter").SetDefaultPrinter()
-            }
-        }
-        continue
-    }
-    If ($compLine.split('=').Trim().Substring(0,4)[0] -eq "Driv"){
-       If($mapDrives -eq "TRUE"){    
-            New-PSDrive -Name $compLine.split('=').Trim().Substring(6,1)[0] -PSProvider "FileSystem" -Root $compLine.split('=').Trim()[1] -Credential $uCreds -Persist
-                      
-        }
-        continue
-    }  
-
-
-
-    Write-outputRTB -Text "Error in file $cPath line $lineCountXfer. $compLine is not a known configuration value." -fore red
-}
-    
-If($OutlookStart -eq "TRUE"){
-    Write-outputRTB -Text "Starting Outlook..." -fore gray
-    Start-Process Outlook
-}    
-    
-If($importJDE -eq "TRUE"){    
-    Write-outputRTB -Text "Starting JDE IE reg fix..." -fore gray
-    REG ADD "HKCU\Software\Microsoft\Internet Explorer\MenuExt\JDE Data Selection Import - 9.1.5" /ve /d "$installLocation\JDEImport\ImportValueList.htm"
-    Write-outputRTB -Text "Starting Chrome, please click add to chrome ..." -fore Magenta
-    Start-Process chrome -ArgumentList https://chrome.google.com/webstore/detail/jde-data-selection-import/njpneibpplcgghbjcbfhcdcfigjnaaha?hl=en
-}
-
-Write-outputRTB -Text "Script will continue as an administrator, please hit enter then provide admin credentials." -fore Magenta
-
-
-$lPutTwo = "$PSScriptRoot\put2.ps1"
-Start-Process PowerShell -ArgumentList "-NoProfile -ExecutionPolicy Unrestricted -File ""$lPutTwo"" -comp $comp " -Verb RunAs
-
-
-pause
 #>
