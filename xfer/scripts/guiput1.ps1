@@ -136,13 +136,13 @@ $sButton.Add_Click({
 
 
         $lineCountXfer++
-        If ($compLine.Substring(0,4) -eq "DSI:"){
-        If ($dSICB.IsChecked){
-            Write-OutputRTB -Text "Installing DSI..." -fore gray
-            start-process powershell -argumentlist "start-process $installLocation\dsi\DSIMobileClientPCSetup.exe", "-ArgumentList /S"
-            sleep 3
-            Start-Process "C:\Program Files (x86)\DSI\Mobile Client\DSI.MobileClient.PC.exe"
-        }
+       # If ($compLine.Substring(0,4) -eq "DSI:"){
+            If ($dSICB.IsChecked){
+                Write-OutputRTB -Text "Installing DSI..." -fore gray
+                start-process powershell -Credential $creds -argumentlist "start-process $installLocation\dsi\DSIMobileClientPCSetup.exe", "-Verb RunAs", "-ArgumentList /S"
+                sleep 3
+                Start-Process "C:\Program Files (x86)\DSI\Mobile Client\DSI.MobileClient.PC.exe"
+        #    }
         continue
     }
         If ($compLine.split(':').Trim()[0] -eq "Port"){continue}
