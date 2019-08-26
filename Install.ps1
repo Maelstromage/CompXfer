@@ -89,9 +89,9 @@ Get-Content -path "$PSScriptRoot\scripts\remoteget.vbs"
 ((Get-Content -path "$PSScriptRoot\xfer\scripts\remoteget.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\remoteget.ps1"
 Get-Content -path "$PSScriptRoot\scripts\remoteget.ps1"
 
-((Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\remoteget.ps1"
+((Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\config.ps1"
 Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1"
-Move-Item "$PSScriptRoot\xfer\scripts\config.ps1" $PSScriptRoot
+
 
 ((Get-Content -path "$PSScriptRoot\xfer\scripts\compxfer.conf" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\compxfer.conf"
 Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
