@@ -11,6 +11,7 @@ Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompXfer"
         ResizeMode="NoResize"
+	Topmost="True"
         Title="CompXfer" Height="430.253" Width="367.857">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
