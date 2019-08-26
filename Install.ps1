@@ -98,7 +98,7 @@ Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
 
 copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse -Verbose
-copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse -Verbose
+# copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse -Verbose
 Move-item -Path $PSScriptRoot\Changelog.txt -destination $PSScriptRoot\docs -Recurse -Verbose
 Move-item -Path $PSScriptRoot\LICENSE -destination $PSScriptRoot\docs -Recurse -Verbose
 Move-item -Path $PSScriptRoot\README.md -destination $PSScriptRoot\docs -Recurse -Verbose
