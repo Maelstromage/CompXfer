@@ -1,4 +1,7 @@
 Add-Type -AssemblyName PresentationCore, PresentationFramework, System.Windows.Forms
+# Written by Harley Schaeffer Version 1.3.190629 
+Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+
 # This part puts the xaml into a variable
 
 [xml]$XAML  = @"
