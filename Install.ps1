@@ -100,6 +100,8 @@ Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
 copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse
 copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse
 
+Start-Process PowerShell -ArgumentList "$PSSCriptRoot\config.ps1"
+
 $argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
 Sleep 2
 Start-Process PowerShell -ArgumentList $argList
