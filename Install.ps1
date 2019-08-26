@@ -97,6 +97,9 @@ Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1"
 Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
 
+copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse
+copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse
+
 $argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
 Sleep 2
 Start-Process PowerShell -ArgumentList $argList
