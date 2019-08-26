@@ -97,8 +97,8 @@ Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1"
 Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
 
-copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse
-copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse
+copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse -Verbose
+copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse -Verbose
 
 Start-Process PowerShell -ArgumentList "$PSSCriptRoot\config.ps1"
 
