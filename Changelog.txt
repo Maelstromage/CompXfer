@@ -60,3 +60,18 @@ Upcoming features
     There will be updates to enhance the use of windows 7 or windows 10
   Application install enhancement
     Creating the ability to run installs from the installs folder.
+    
+Version 1.3.190629 
+
+Known Bugs
+  
+  Clean up remoteget bug
+    There are quite a few scripts that are used to make remoteget work which causes a lot of boxes to come up on the users screen.    
+      Although there is not hinderance in functionality.
+      
+Upcoming features
+
+  Have script know if it running on win7 or win10 enhancement
+    There will be updates to enhance the use of windows 7 or windows 10
+  Application install enhancement
+    Creating the ability to run installs from the installs folder.
