@@ -89,11 +89,21 @@ Get-Content -path "$PSScriptRoot\scripts\remoteget.vbs"
 ((Get-Content -path "$PSScriptRoot\xfer\scripts\remoteget.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\remoteget.ps1"
 Get-Content -path "$PSScriptRoot\scripts\remoteget.ps1"
 
+((Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\config.ps1"
+Get-Content -path "$PSScriptRoot\xfer\scripts\config.ps1"
 
 
 ((Get-Content -path "$PSScriptRoot\xfer\scripts\compxfer.conf" -Raw) -replace 'REPLACEME',$PSScriptRoot) | Set-Content -Path "$PSScriptRoot\scripts\compxfer.conf"
 Get-Content -path "$PSScriptRoot\scripts\compxfer.conf"
 Remove-Item -Path "$PSScriptRoot\xfer" -Recurse -force
+
+copy-item -Path \\usblns-file2\get\installs\JDEImport -destination $PSScriptRoot\installs -Recurse -Verbose
+# copy-item -Path \\usblns-file2\get\installs\DSI -destination $PSScriptRoot\installs -Recurse -Verbose
+Move-item -Path "$PSScriptRoot\Changelog.txt" -destination "$PSScriptRoot\docs" -Verbose
+Move-item -Path "$PSScriptRoot\LICENSE" -destination "$PSScriptRoot\docs" -Verbose
+Move-item -Path "$PSScriptRoot\README.md" -destination "$PSScriptRoot\docs" -Verbose
+
+Start-Process PowerShell -ArgumentList "$PSSCriptRoot\config.ps1"
 
 $argList = "-NoProfile -ExecutionPolicy Unrestricted -command remove-item " + '"' + $PSScriptRoot + '\install.ps1' + '"'
 Sleep 2
