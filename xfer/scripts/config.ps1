@@ -1,3 +1,4 @@
+Add-Type -AssemblyName PresentationCore, PresentationFramework, System.Windows.Forms
 # This part puts the xaml into a variable
 
 [xml]$XAML  = @"
