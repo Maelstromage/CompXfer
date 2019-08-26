@@ -1,7 +1,7 @@
-# Written by Harley Schaeffer 3/18/2019 version 1.2.191206
+# Written by Harley Schaeffer version 1.3.190629
 
 param($comp)
-Write-host "Version 1.2.191206 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 
 
 
