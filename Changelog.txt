@@ -61,7 +61,7 @@ Upcoming features
   Application install enhancement
     Creating the ability to run installs from the installs folder.
     
-Version 1.3.190629 
+Version 1.3.190626 
 
 Known Bugs
   
@@ -75,3 +75,9 @@ Upcoming features
     There will be updates to enhance the use of windows 7 or windows 10
   Application install enhancement
     Creating the ability to run installs from the installs folder.
+    
+Version 1.3.190626     
+    
+Fixed a bug where chrome would not move over book marks.
+Fixed a bug where windows would not set the default printer
+Fixed a bug where printers were not detected through get on a windows 7 machine
