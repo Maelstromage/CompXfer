@@ -154,7 +154,7 @@ If ($userFavorites -eq "TRUE"){
     Sleep 2
     $wshell.SendKeys('^d')
     sleep 1
-    $wshell.SendKeys('{~}')
+    $wshell.SendKeys('~')
     sleep 1
     $wshell.SendKeys('%{F4}')
     Stop-Process -name "chrome" -force
