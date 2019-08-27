@@ -125,7 +125,7 @@ Add-Content $cPath "Network Printers:"
 $pMapped = Get-WMIObject -Class Win32_Printer | where{$_.Name -like "*\\*"} | ForEach-Object {($_.systemname) + "\" + ($_.sharename)}
 
 Write-Host "Printers currently mapped on $comp" -fore Gray
-    foreach ($pPrinter in $pMapped.name){
+    foreach ($pPrinter in $pMapped){
     Write-Host $pPrinter -fore Green
     Add-Content $cPath $pPrinter  
 }
