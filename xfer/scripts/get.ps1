@@ -118,12 +118,18 @@ foreach ($drive in $dMapped){
 
 Add-Content $cPath "Network Printers:"
 
-$pMapped = Get-WMIObject -Class Win32_Printer | Select Name 
-$pShareMapped = Get-WMIObject -Class Win32_Printer | Select ShareName
+# $pMapped = Get-WMIObject -Class Win32_Printer | Select Name 
+# $pShareMapped = Get-WMIObject -Class Win32_Printer | Select ShareName
+
+Add-Content $cPath "Network Printers:"
+$pMapped = Get-WMIObject -Class Win32_Printer | where{$_.Name -like “*\\*”} | ForEach-Object {($_.systemname) + "\" + ($_.sharename)}
 
 Write-Host "Printers currently mapped on $comp" -fore Gray
-foreach ($pPrinter in $pMapped.name){
-    
+    foreach ($pPrinter in $pMapped.name){
+    Write-Host $pPrinter -fore Green
+    Add-Content $cPath $pPrinter  
+}
+<#    
     $aPrinter = "\\" + $pPrinter.Split("\")[2] + "\" + $pShareMapped[$countprinter].sharename
     if ($aPrinter.StartsWith("\\\") -eq $true){
         $countprinter++    
@@ -136,7 +142,7 @@ foreach ($pPrinter in $pMapped.name){
     $countprinter++
 }
 
-<#
+
 $pMapped = Get-WMIObject -Class Win32_Printer | Select Name | findstr /c:'\\'
 Write-Host "Printers currently mapped on $comp" -fore Gray
 foreach ($pPrinter in $pMapped){
