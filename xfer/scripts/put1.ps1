@@ -306,6 +306,7 @@ foreach ($compLine in $compFile) {
                 #not tested
                 $dPrinter = $compLine.split('=').Trim()[1]
                 #RUNDLL32 PRINTUI.DLL,PrintUIEntry /y /n $dPrinter
+                Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" -name LegacyDefaultPrinterMode -Value 1
                 (New-Object -ComObject WScript.Network).SetDefaultPrinter($dPrinter)
                 #(Get-WmiObject -ComputerName . -Class Win32_Printer -Filter "Name=$dPrinter").SetDefaultPrinter()
             }
