@@ -157,7 +157,6 @@ If ($userFavorites -eq "TRUE"){
     $wshell.SendKeys('~')
     sleep 1
     $wshell.SendKeys('%{F4}')
-    Stop-Process -name "chrome" -force
     Copy-Item -Force -Path "\\$comp\c$\users\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
     Write-Host "Copying IE Bookmarks" -ForegroundColor Green
     Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Favorites -Destination "C:\users\$cUser\" -Recurse -Verbose
