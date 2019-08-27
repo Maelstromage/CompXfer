@@ -148,7 +148,8 @@ If ($fixSCCM -eq "TRUE"){
 }
 If ($userFavorites -eq "TRUE"){
     Write-Host "Copying Google Chrome Bookmarks" -ForegroundColor Green
-    Start-Process chrome.exe -wait
+    Start-Process chrome.exe
+    sleep 5
     Stop-Process -name "chrome" -force
     Copy-Item -Force -Path "\\$comp\c$\users\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
     Write-Host "Copying IE Bookmarks" -ForegroundColor Green
