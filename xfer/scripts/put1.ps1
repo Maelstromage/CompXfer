@@ -146,8 +146,6 @@ If($OutlookStart -eq "TRUE"){
 If($importJDE -eq "TRUE"){    
     Write-Host "Starting JDE IE reg fix..." -fore gray
     REG ADD "HKCU\Software\Microsoft\Internet Explorer\MenuExt\JDE Data Selection Import - 9.1.5" /ve /d "$installLocation\JDEImport\ImportValueList.htm"
-    Write-Host "Starting Chrome, please click add to chrome ..." -fore Magenta
-    Start-Process chrome -ArgumentList https://chrome.google.com/webstore/detail/jde-data-selection-import/njpneibpplcgghbjcbfhcdcfigjnaaha?hl=en
 }
 
 Write-Host "Script will continue as an administrator, please hit enter then provide admin credentials." -fore Magenta
