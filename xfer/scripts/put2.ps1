@@ -155,6 +155,11 @@ If ($userFavorites -eq "TRUE"){
     Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Favorites -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 
+If($importJDE -eq "TRUE"){    
+    Write-Host "Starting Chrome, please click add to chrome ..." -fore Magenta
+    Start-Process chrome -ArgumentList https://chrome.google.com/webstore/detail/jde-data-selection-import/njpneibpplcgghbjcbfhcdcfigjnaaha?hl=en
+}
+
 If ($appDataFolder -eq "TRUE"){
     Write-Host "Please copy appdata manually Opening Folders..." -fore Magenta
     Invoke-Item "\\$comp\c$\users\$uProfile\AppData"  
