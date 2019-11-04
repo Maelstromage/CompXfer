@@ -8,22 +8,9 @@ function Unzip
 }
 
 Write-Output $PSScriptRoot
-
 New-Item -Path $PSScriptRoot -name "userData" -ItemType "directory"
-Icacls $PSScriptRoot\userData /c /inheritance:d 
-Icacls $PSScriptRoot\userData /t /c /remove:g "Authenticated Users" 
-Icacls $PSScriptRoot\userData /t /c /grant ("Authenticated Users"+':(OI)(CI)F')
-Icacls $PSScriptRoot\userData /c /inheritance:d 
-Icacls $PSScriptRoot\userData /t /c /remove:g "Everyone" 
-Icacls $PSScriptRoot\userData /t /c /grant ("Everyone"+':(OI)(CI)F')
-
 New-Item -Path $PSScriptRoot -name "comps" -ItemType "directory"
-Icacls $PSScriptRoot\comps /c /inheritance:d 
-Icacls $PSScriptRoot\comps /t /c /remove:g "Authenticated Users" 
-Icacls $PSScriptRoot\comps /t /c /grant ("Authenticated Users"+':(OI)(CI)F')
-Icacls $PSScriptRoot\comps /c /inheritance:d 
-Icacls $PSScriptRoot\comps /t /c /remove:g "Everyone" 
-Icacls $PSScriptRoot\comps /t /c /grant ("Everyone"+':(OI)(CI)F')
+
 
 New-Item -Path $PSScriptRoot -name "export" -ItemType "directory"
 <#
@@ -63,13 +50,13 @@ Move-Item -Path $PSScriptRoot\xfer\scripts\put2.ps1 -Destination "$PSScriptRoot\
 Move-Item -Path $PSScriptRoot\xfer\scripts\verifyconf.ps1 -Destination "$PSScriptRoot\scripts"
 
 
-$getLocal = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+"'"+ '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\get.ps1" + '""'+"'"+'}";' + "`r`n" + 'pause'
+$getLocal = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+"'"+ '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "scripts\get.ps1" + '""'+"'"+'}";' + "`r`n" + 'pause'
 New-Item -Path $PSScriptRoot -name "get.bat" -ItemType "file" -Value $getLocal
 
-$getRemote = 'set /p comp=Please enter the computer name and hit enter:' + "`r`n" + 'echo Executing on %comp%...'+ "`r`n" + 'robocopy "' + "$PSScriptRoot\PSTools\ " + '" "c:\temp\ "' + "`r`n" + 'c:\temp\psexec -accepteula -i -s \\%comp% cscript "' + "$PSScriptRoot\scripts\remoteget.vbs" + '"' + "`r`n" + 'pause'
+$getRemote = 'set /p comp=Please enter the computer name and hit enter:' + "`r`n" + 'echo Executing on %comp%...'+ "`r`n" + 'robocopy "' + "PSTools\ " + '" "c:\temp\ "' + "`r`n" + 'c:\temp\psexec -accepteula -i -s \\%comp% cscript "' + "scripts\remoteget.vbs" + '"' + "`r`n" + 'pause'
 New-Item -path $PSScriptRoot -name "getremote.bat" -ItemType "file" -Value $getRemote
 
-$getPut = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+ "'" + '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\put1.ps1" + '""' +"'" + '}";' + "`r`n" + 'pause'
+$getPut = 'PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '+ "'" + '-NoProfile -ExecutionPolicy Unrestricted -File ""' + "scripts\put1.ps1" + '""' +"'" + '}";' + "`r`n" + 'pause'
 New-Item -path $PSScriptRoot -name "put.bat" -ItemType "file" -Value $getPut
 
 
@@ -83,7 +70,7 @@ Get-Content -path "$PSScriptRoot\scripts\get.ps1"
 
 
 
-$remoteGet = 'start /min PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList ' + "'" + '-windowstyle hidden -NoProfile -ExecutionPolicy Unrestricted -File ""' + "$PSScriptRoot\scripts\remoteget.ps1" + '""' +"'" + '}";'
+$remoteGet = 'start /min PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList ' + "'" + '-windowstyle hidden -NoProfile -ExecutionPolicy Unrestricted -File ""' + "scripts\remoteget.ps1" + '""' +"'" + '}";'
 
 New-Item -path "$PSScriptRoot\scripts" -name "remoteget.bat" -ItemType "file" -Value $remoteGet
 
