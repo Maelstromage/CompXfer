@@ -3,6 +3,7 @@
 param($comp)
 Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 $scriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+$userData = (Split-Path $scriptRoot -Parent) + "\userData"
 
 
 function Get-ValidEntry {
@@ -36,7 +37,7 @@ $scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
 . $scriptRoot\verifyconf.ps1 
-
+#$cPath = (Split-Path $scriptRoot -Parent) + "\comps\$uProfile.txt"
 Write-Host -fore gray "Loading $cPath..."
 
 $lineCountXfer = 0
@@ -200,6 +201,7 @@ If ($powerPlan -eq "TRUE"){
     
 }
 
+
 If ($userDesktop -eq "TRUE"){
     Write-Host "Copying Desktop..." -fore Gray
     Copy-Item -Force -Path $userData\$uProfile\Desktop -Destination "C:\users\$cUser\" -Recurse -Verbose
@@ -236,7 +238,6 @@ If ($userAppData -eq "TRUE"){
     Write-Host "Copying AppData..." -fore Gray
     Copy-Item -Force -Path $userData\$uProfile\AppData -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
-
 
 
 If ($optMicrosoft -eq "TRUE"){

@@ -31,7 +31,7 @@ $scriptRoot = $PSScriptRoot
 ### error checking for confxfer.conf and adds values
 
 . "$scriptRoot\verifyconf.ps1"
-
+#$cPath = (Split-Path $scriptRoot -Parent) + "\comps\$uProfile.txt"
 Write-Host -fore gray "Loading $cPath..."
 if(!(Test-Path $cPath -PathType Leaf)){ #returns true or false if false proceeds
             Write-Host "Cannot find $cPath. Please restart put." -fore Red

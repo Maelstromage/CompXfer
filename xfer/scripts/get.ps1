@@ -1,7 +1,12 @@
 # Written by Harley Schaeffer version 1.3.190629
 param($gRemote)
 Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
+
+$scriptRoot = "I:\dev" + "\scripts"
 $scriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+$userData = (Split-Path $scriptRoot -Parent) + "\userData"
+
+
 $confLocation = $scriptRoot + "\compXfer.conf"
 
 $countprinter = 0
@@ -52,8 +57,7 @@ $fromPut = $false
 
 ### Overwrite Comps file
 
-
-
+#$cPath = (Split-Path $scriptRoot -Parent) + "\comps\$comp.txt"
 if(!(Test-Path "$cPath" -PathType Leaf)){ #returns true or false if false proceeds
     
 } else {
@@ -226,8 +230,7 @@ if($chromePasswords -eq "TRUE"){
     $wshell.SendKeys("$chromeExportLocation\$comp.csv~")
 } 
 
-
-
+#start from here
 New-Item -ItemType directory "$userData\$uProfile\"
 If ($userFavorites -eq "TRUE"){
     Write-Host "Copying Google Chrome Bookmarks" -ForegroundColor Green

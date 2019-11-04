@@ -1,3 +1,21 @@
+ $cDir = (Split-Path $scriptRoot -Parent) + "\comps\"
+    # Problem
+    If ($fromPut -eq $True){
+        $lComp = Get-ChildItem -Path $cDir | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        $comp = $lComp.name
+        $comp = $comp -replace ".{4}$"
+        Write-Host -fore Magenta "Type the name of the old computer or hit enter to use " -NoNewline 
+        Write-Host -fore green $comp":" -NoNewline
+        $cComp = Read-Host
+        if($cComp -ne ""){
+            $comp = $cComp
+        }
+    }
+    # Problem
+
+    $cPath = (Split-Path $scriptRoot -Parent) + "\comps\$comp.txt"
+  
+
 foreach ($configLine in $compXfer) {
 	$configLine = $configLine.split("=")
     $lineCountXfer++
@@ -5,25 +23,9 @@ foreach ($configLine in $compXfer) {
     If ($configLine[0].Substring(0,1) -eq "#"){
         continue
     }
-    If ($configLine[0].Trim() -eq "CompFileLocation"){
-        $cDir = $configLine[1].Trim()
-        # Problem
-        If ($fromPut -eq $True){
-            $lComp = Get-ChildItem -Path $cDir | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-            $comp = $lComp.name
-            $comp = $comp -replace ".{4}$"
-            Write-Host -fore Magenta "Type the name of the old computer or hit enter to use " -NoNewline 
-            Write-Host -fore green $comp":" -NoNewline
-            $cComp = Read-Host
-            if($cComp -ne ""){
-                $comp = $cComp
-            }
-        }
-        # Problem
-
-        $cPath = $configLine[1].Trim() + $comp + '.txt'
-        continue
-    }
+    #If ($configLine[0].Trim() -eq "CompFileLocation"){
+       
+    #}
     If ($configLine[0].Trim() -eq "ChromeExportLocation"){
         $chromeExportLocation = $configLine[1].Trim()
         $chromeExportLocation = $chromeExportLocation.TrimEnd("\")

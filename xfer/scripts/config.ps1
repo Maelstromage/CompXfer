@@ -135,11 +135,9 @@ New-Variable  -Name $_.Name -Value $Window.FindName($_.Name) -Force
 #Code goes here, like events
 #Write-host "Version 1.2.191206 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
 
-### !!! Needs to be changed to REPLACEME
-$scriptRoot = "REPLACEME" + "\scripts" ###Needs to be changed to REPLACEME
-### !!! Needs to be changed to REPLACEME
+$scriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 
-$confLocation = $scriptRoot + "\compXfer.conf"
+$confLocation = $scriptRoot + "\scripts\compXfer.conf"
 
 if(!(Test-Path $confLocation -PathType Leaf)){ #returns true or false if false proceeds
     Write-Host "Cannot find compxfer.conf in location $scriptRoot. Please move compxfer.conf to $scriptRoot" -fore Red
@@ -301,3 +299,4 @@ $SaveButton.Add_Click({
 
 
 $Window.ShowDialog()
+

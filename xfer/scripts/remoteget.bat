@@ -1,0 +1,1 @@
+start /min PowerShell -NoProfile -ExecutionPolicy Unrestricted -Command "& {Start-Process PowerShell -ArgumentList '-windowstyle hidden -NoProfile -ExecutionPolicy Unrestricted -File ""scripts\remoteget.ps1""'}";

@@ -2,5 +2,6 @@
 Set getShell = WScript.CreateObject("WScript.Shell")
 getShell.run ("explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}")
 wscript.Sleep 500
-getShell.Sendkeys "REPLACEME\scripts\remoteget.bat"
+getShell.Sendkeys "I:\dev 4\scripts\remoteget.bat"
 getShell.SendKeys "{ENTER}"
+
