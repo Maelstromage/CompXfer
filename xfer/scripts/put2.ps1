@@ -2,7 +2,7 @@
 
 param($comp)
 Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
-
+$scriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 
 function Get-ValidEntry {
@@ -152,9 +152,9 @@ If ($userFavorites -eq "TRUE"){
         New-Item -type directory "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\"
         write-host "Folder not found creating chrome folder..." -ForegroundColor Green
     }
-    Copy-Item -Force -Path "\\$comp\c$\users\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
+    Copy-Item -Force -Path "$userData\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "c:\users\$cUser\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
     Write-Host "Copying IE Bookmarks" -ForegroundColor Green
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Favorites -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Favorites -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 
 If($importJDE -eq "TRUE"){    
@@ -200,43 +200,43 @@ If ($powerPlan -eq "TRUE"){
     
 }
 
-
 If ($userDesktop -eq "TRUE"){
     Write-Host "Copying Desktop..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Desktop -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Desktop -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userDocuments -eq "TRUE"){
     Write-Host "Copying Documents..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Documents -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Documents -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userContacts -eq "TRUE"){
     Write-Host "Copying Contacts..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Contacts -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Contacts -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userDownloads -eq "TRUE"){
     Write-Host "Copying Downloads..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Downloads -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Downloads -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userLinks -eq "TRUE"){
     Write-Host "Copying Links..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Links -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Links -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userMusic -eq "TRUE"){
     Write-Host "Copying Music..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Music -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Music -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userPictures -eq "TRUE"){
     Write-Host "Copying Pictures..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Pictures -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Pictures -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userVideos -eq "TRUE"){
     Write-Host "Copying Videos..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Videos -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\Videos -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
 If ($userAppData -eq "TRUE"){
     Write-Host "Copying AppData..." -fore Gray
-    Copy-Item -Force -Path \\$comp\c$\users\$uProfile\AppData -Destination "C:\users\$cUser\" -Recurse -Verbose
+    Copy-Item -Force -Path $userData\$uProfile\AppData -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
+
 
 
 If ($optMicrosoft -eq "TRUE"){
