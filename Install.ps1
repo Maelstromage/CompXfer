@@ -9,6 +9,14 @@ function Unzip
 
 Write-Output $PSScriptRoot
 
+New-Item -Path $PSScriptRoot -name "userData" -ItemType "directory"
+Icacls $PSScriptRoot\userData /c /inheritance:d 
+Icacls $PSScriptRoot\userData /t /c /remove:g "Authenticated Users" 
+Icacls $PSScriptRoot\userData /t /c /grant ("Authenticated Users"+':(OI)(CI)F')
+Icacls $PSScriptRoot\userData /c /inheritance:d 
+Icacls $PSScriptRoot\userData /t /c /remove:g "Everyone" 
+Icacls $PSScriptRoot\userData /t /c /grant ("Everyone"+':(OI)(CI)F')
+
 New-Item -Path $PSScriptRoot -name "comps" -ItemType "directory"
 Icacls $PSScriptRoot\comps /c /inheritance:d 
 Icacls $PSScriptRoot\comps /t /c /remove:g "Authenticated Users" 
