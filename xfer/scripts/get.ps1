@@ -1,7 +1,7 @@
 # Written by Harley Schaeffer version 1.3.190629
 param($gRemote)
 Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to email Harley.Schaeffer@assaabloy.com with any issues." -fore Gray
-$scriptRoot = "REPLACEME" + "\scripts"
+$scriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 $confLocation = $scriptRoot + "\compXfer.conf"
 
 $countprinter = 0
@@ -228,7 +228,61 @@ if($chromePasswords -eq "TRUE"){
 
 
 
+New-Item -ItemType directory "$userData\$uProfile\"
+If ($userFavorites -eq "TRUE"){
+    Write-Host "Copying Google Chrome Bookmarks" -ForegroundColor Green
+    if (!(test-path "$userData\$uProfile\AppData\Local\Google\Chrome\User Data\Default\")){
+        New-Item -type directory "$userData\$uProfile\AppData\Local\Google\Chrome\User Data\Default\"
+        write-host "Folder not found creating chrome folder..." -ForegroundColor Green
+    }
+    Copy-Item -Force -Path "c:\users\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Destination "$userData\$uProfile\AppData\Local\Google\Chrome\User Data\Default\Bookmarks" -Verbose
+    Write-Host "Copying IE Bookmarks" -ForegroundColor Green
+    Copy-Item -Force -Path c:\users\$uProfile\Favorites -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+
+If ($userDesktop -eq "TRUE"){
+    Write-Host "Copying Desktop..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Desktop -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userDocuments -eq "TRUE"){
+    Write-Host "Copying Documents..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Documents -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userContacts -eq "TRUE"){
+    Write-Host "Copying Contacts..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Contacts -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userDownloads -eq "TRUE"){
+    Write-Host "Copying Downloads..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Downloads -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userLinks -eq "TRUE"){
+    Write-Host "Copying Links..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Links -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userMusic -eq "TRUE"){
+    Write-Host "Copying Music..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Music -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userPictures -eq "TRUE"){
+    Write-Host "Copying Pictures..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Pictures -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userVideos -eq "TRUE"){
+    Write-Host "Copying Videos..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\Videos -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+If ($userAppData -eq "TRUE"){
+    Write-Host "Copying AppData..." -fore Gray
+    Copy-Item -Force -Path c:\users\$uProfile\AppData -Destination "$userData\$uProfile\" -Recurse -Verbose
+}
+
+
+
+
 if ($gRemote -eq "TRUE"){exit}else{read-host "press enter key to continue"}
+
+
 
 
 
