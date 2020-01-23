@@ -39,6 +39,7 @@ Write-host "Version 1.3.190629 written by Harley Schaeffer. Please feel free to 
             <CheckBox x:Name="optMicrosoftCB" Content="Opt in MS Updates" ToolTip = "Opt in for other Microsoft Products"/>
             <CheckBox x:Name="userFavoritesCB" Content="Copy Favorites" ToolTip = "Copies folder from users profile folder. Favorites only copy Chrome and IE favorites. Old Computer must be on."/>
             <CheckBox x:Name="userDesktopCB" Content="Copy Desktop" ToolTip = "Copies folder from users profile folder. Old Computer must be on."/>
+	    <CheckBox x:Name="userChromeProfileCB" Content="Copy Desktop" ToolTip = "Copies folder from users Chrome profile folder. Old Computer must be on."/>
             <CheckBox x:Name="userDocumentsCB" Content="Copy Documents" ToolTip = "Copies folder from users profile folder. Old Computer must be on."/>
             <CheckBox x:Name="userDownloadsCB" Content="Copy Downloads" ToolTip = "Copies folder from users profile folder. Old Computer must be on."/>
             <CheckBox x:Name="userLinksCB" Content="Copy Links" ToolTip = "Copies folder from users profile folder. Old Computer must be on."/>
@@ -177,6 +178,7 @@ foreach ($configLine in $compXfer)
 	if ($configLine.StartsWith("OptMicrosoft = TRUE")){$OptMicrosoftCB.IsChecked = $true}
 	if ($configLine.StartsWith("UserFavorites = TRUE")){$UserFavoritesCB.IsChecked = $true}
 	if ($configLine.StartsWith("UserDesktop = TRUE")){$UserDesktopCB.IsChecked = $true}
+	if ($configLine.StartsWith("UserChromeProfile = TRUE")){$UserChromeProfileCB.IsChecked = $true}
 	if ($configLine.StartsWith("UserDocuments = TRUE")){$UserDocumentsCB.IsChecked = $true}
 	if ($configLine.StartsWith("UserDownloads = TRUE")){$UserDownloadsCB.IsChecked = $true}
 	if ($configLine.StartsWith("UserLinks = TRUE")){$UserLinksCB.IsChecked = $true}
@@ -279,6 +281,7 @@ $SaveButton.Add_Click({
         if ($configLine.StartsWith("OptMicrosoft =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $OptMicrosoftCB.IsChecked.toString().ToUpper()}
         if ($configLine.StartsWith("UserFavorites =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserFavoritesCB.IsChecked.toString().ToUpper()}
         if ($configLine.StartsWith("UserDesktop =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserDesktopCB.IsChecked.toString().ToUpper()}
+	if ($configLine.StartsWith("UserChromeProfile =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserChromeProfileCB.IsChecked.toString().ToUpper()}
         if ($configLine.StartsWith("UserDocuments =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserDocumentsCB.IsChecked.toString().ToUpper()}
         if ($configLine.StartsWith("UserDownloads =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserDownloadsCB.IsChecked.toString().ToUpper()}
         if ($configLine.StartsWith("UserLinks =")){$compXfer[$compXferCount] = $configLine.split("=")[0] + "= " + $UserLinksCB.IsChecked.toString().ToUpper()}
