@@ -205,6 +205,10 @@ If ($userDesktop -eq "TRUE"){
     Write-Host "Copying Desktop..." -fore Gray
     Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Desktop -Destination "C:\users\$cUser\" -Recurse -Verbose
 }
+If ($userChromeProfile -eq "TRUE"){
+    Write-Host "Copying Chrome Profile..." -fore Gray
+    Copy-Item -Force -Path "\\$comp\c$\users\$uProfile\AppData\Local\Google" -Destination "C:\users\$cUser\AppData\Local\Google\" -Recurse -Verbose
+}
 If ($userDocuments -eq "TRUE"){
     Write-Host "Copying Documents..." -fore Gray
     Copy-Item -Force -Path \\$comp\c$\users\$uProfile\Documents -Destination "C:\users\$cUser\" -Recurse -Verbose
