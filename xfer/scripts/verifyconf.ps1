@@ -101,7 +101,12 @@ foreach ($configLine in $compXfer) {
         Get-ValidEntry -bValue $userFavorites -lineCount $lineCountXfer
 		continue
     }
-	If ($configLine[0].Trim() -eq "UserDesktop"){
+    If ($configLine[0].Trim() -eq "UserChromeProfile"){
+        $userDesktop = $configLine[1].Trim()
+        Get-ValidEntry -bValue $userChromeProfile -lineCount $lineCountXfer
+        continue
+    }
+    If ($configLine[0].Trim() -eq "UserDesktop"){
         $userDesktop = $configLine[1].Trim()
         Get-ValidEntry -bValue $userDesktop -lineCount $lineCountXfer
         continue
